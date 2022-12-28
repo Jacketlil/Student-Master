@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Change Password
+{% endblock %}
+
+{% block main %}
+<form action="/change_password" method="post">
+    <div class="mb-3">
+        <p>Please Enter Your Previous Password:</p>
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="prev_password" name="prev_password"
+            placeholder="Previous Password" type="text" onkeyup="alert()">
+    </div>
+    <div id="liveAlertPlaceholder1"></div>
+    <div class="mb-3">
+        <p>New Password:</p>
+        <input class="form-control mx-auto w-auto" id="new_password" name="new_password" placeholder="New Password"
+            type="password" onkeyup="alert()">
+    </div>
+    <div id="liveAlertPlaceholder2"></div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirmation"
+            type="password" onkeyup="alert()">
+    </div>
+    <div id="liveAlertPlaceholder3"></div>
+    <button class="btn btn-primary" type="submit" id="submit button">Change Password</button>
+</form>
+
+<script>
+    const alertPlaceholder1 = document.getElementById('liveAlertPlaceholder1');
+    const alertPlaceholder2 = document.getElementById('liveAlertPlaceholder2');
+    const alertPlaceholder3 = document.getElementById('liveAlertPlaceholder3');
+    const prev_password = document.getElementById('prev_password');
+    const new_password = document.getElementById('new_password');
+    const confirmation = document.getElementById('confirmation');
+
+    const button = document.getElementById('submit button');
+
+    function alert() {
+        if (prev_password.value == '') {
+            alertPlaceholder1.setAttribute("class", "alert alert-danger");
+            alertPlaceholder1.setAttribute("role", "alert");
+            alertPlaceholder1.innerHTML = "Please enter your previous password";
+        }
+        else {
+            alertPlaceholder1.removeAttribute("class");
+            alertPlaceholder1.removeAttribute("role");
+            alertPlaceholder1.innerHTML = "";
+        }
+        if (confirmation.value == '') {
+            alertPlaceholder2.setAttribute("class", "alert alert-danger");
+            alertPlaceholder2.setAttribute("role", "alert");
+            alertPlaceholder2.innerHTML = "Please enter confirmation password!";
+        }
+        else {
+            alertPlaceholder2.removeAttribute("class");
+            alertPlaceholder2.removeAttribute("role");
+            alertPlaceholder2.innerHTML = "";
+        }
+        if (new_password.value == '') {
+            alertPlaceholder3.setAttribute("class", "alert alert-danger");
+            alertPlaceholder3.setAttribute("role", "alert");
+            alertPlaceholder3.innerHTML = "Please enter your new password!";
+        }
+        else {
+            alertPlaceholder3.removeAttribute("class");
+            alertPlaceholder3.removeAttribute("role");
+            alertPlaceholder3.innerHTML = "";
+        }
+
+        if (prev_password.value != '' && new_password.value != '' && confirmation.value != '') {
+            button.disabled = false;
+        }
+        else {
+            button.disabled = true;
+        }
+    }
+</script>
+{% endblock %}

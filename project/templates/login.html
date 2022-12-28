@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Log In
+{% endblock %}
+
+{% block main %}
+<img src="/static/images/school.png" style="text-align:center; width:80px; padding-bottom: 50px;">
+<form action="/login" method="post" onkeyup="alert()">
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username"
+            placeholder="Username" type="text">
+    </div>
+    <div id="liveAlertPlaceholder1"></div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+    </div>
+    <div id="liveAlertPlaceholder2"></div>
+    <button class="btn btn-primary" type="submit" id="submit button" disabled>Log In</button>
+</form>
+
+
+<script>
+    const alertPlaceholder1 = document.getElementById('liveAlertPlaceholder1');
+    const alertPlaceholder2 = document.getElementById('liveAlertPlaceholder2');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+    const button = document.getElementById('submit button')
+
+    function alert() {
+        if (username.value == '') {
+            alertPlaceholder1.setAttribute("class", "alert alert-danger");
+            alertPlaceholder1.setAttribute("role", "alert");
+            alertPlaceholder1.innerHTML = "Username cannot be empty";
+        }
+        else {
+            alertPlaceholder1.removeAttribute("class");
+            alertPlaceholder1.removeAttribute("role");
+            alertPlaceholder1.innerHTML = "";
+        }
+
+        if (password.value == '') {
+            alertPlaceholder2.setAttribute("class", "alert alert-danger");
+            alertPlaceholder2.setAttribute("role", "alert");
+            alertPlaceholder2.innerHTML = "Password cannot be empty";
+        }
+        else {
+            alertPlaceholder2.removeAttribute("class");
+            alertPlaceholder2.removeAttribute("role");
+            alertPlaceholder2.innerHTML = "";
+        }
+
+        if (username.value != '' && password.value != '') {
+            button.disabled = false;
+        }
+        else {
+            button.disabled = true;
+        }
+    }
+</script>
+{% endblock %}

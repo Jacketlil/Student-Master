@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Sessions
+{% endblock %}
+
+{% block main %}
+{% if (posted_finished_sessions|length == 0) and (registered_finished_sessions|length == 0) %}
+<h1>You don't have any finished session</h1>
+
+{% else %}
+{% if posted_finished_sessions|length > 0 %}
+<h1>My Finished Sessions</h1>
+<div class="d-flex flex-wrap">
+    {% for session in posted_finished_sessions %}
+    <div class="card" id="sessions_card">
+        <img src="static/images/{{ session['image_name'] }}" class="card-img-top" alt="">
+
+        <div class="card-body">
+            <h5 class="card-title">{{ session['title'] }}</h5>
+            <h6>{{ session['type'] }}</h6>
+            <p class="card-text">{{ session['description'] }}</p>
+            <form action="/detailed_session">
+                <input type="hidden" name="session_id" value="{{ session['id'] }}">
+                <input type="hidden" name="user_id" value="{{ session['user_id'] }}">
+                <input type="hidden" name="previous_page" value="/sessions">
+                <button class="btn btn-info">Details</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% if registered_finished_sessions|length > 0 %}
+<h1>Finsihed Sessions That I Registered</h1>
+<div class="d-flex flex-wrap">
+    {% for session in registered_finished_sessions %}
+    <div class="card" id="sessions_card">
+        <img src="static/images/{{ session['image_name'] }}" class="card-img-top" id="session_img" alt="">
+
+        <div class="card-body">
+            <h5 class="card-title">{{ session['title'] }}</h5>
+            <h6>{{ session['type'] }}</h6>
+            <p class="card-text">{{ session['description'] }}</p>
+            <form action="/detailed_session">
+                <input type="hidden" name="session_id" value="{{ session['id'] }}">
+                <input type="hidden" name="user_id" value="{{ session['user_id'] }}">
+                <input type="hidden" name="previous_page" value="/sessions">
+                <button class="btn btn-info">Details</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+{% endif %}
+
+{% endblock %}

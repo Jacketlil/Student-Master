@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Detailed Session
+{% endblock %}
+
+{% block main %}
+<img src="static/images/{{ session_info[0]['image_name'] }}" alt="" style="width:500px">
+<h1>Posted User: <i>{{ user_info[0]["username"] }}</i></h1>
+<h3>Subject Related: {{ session_info[0]["type"] }}</h3>
+{% if session_info[0]['description'] %}
+<p>Description: {{ session_info[0]["description"] }}</p>
+{% endif %}
+
+<a class="btn btn-secondary" href="{{ previous_page }}" role="button">Return</a>
+{% if session_info[0]['user_id'] != current_user and session_info[0]['status'] == 'posted'%}
+<form action="/register">
+    <input type="hidden" name="session_id" value="{{ session_info[0]['id'] }}">
+    <button class="btn btn-primary">Register Session</button>
+</form>
+{% endif %}
+{% if 'awaiting for confirmation' == session_info[0]['status'] %}
+<form action="/confirm" method="post">
+    <input type="hidden" name="session_id" value="{{ session_info[0]['id'] }}">
+    <input type="hidden" name="previous_page" value="/sessions">
+    <button class="btn btn-primary">Confirm</button>
+</form>
+{% endif %}
+{% if 'registered' == session_info[0]['status'] and session_info[0]['user_id'] == current_user %}
+<form action="/finished" method="post">
+    <input type="hidden" name="session_id" value="{{ session_info[0]['id'] }}">
+    <button class="btn btn-primary">Session Finished</button>
+</form>
+{% endif %}
+{% endblock %}

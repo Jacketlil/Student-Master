@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Notification
+{% endblock %}
+
+{% block main %}
+<p>{{ message }}</p>
+<form action = "{{ link }}" method="get">
+    <button type="submit">{{ button_message }}</button>
+</form>
+
+{% endblock %}

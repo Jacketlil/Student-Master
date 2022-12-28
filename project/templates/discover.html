@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Discover
+{% endblock %}
+
+{% block main %}
+<h1>Discover</h1>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Upload Sessions
+</button>
+
+<!-- Modal -->
+<form method='post' enctype=multipart/form-data>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Creating a New Session</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" name="title" id="title" placeholder="Title" onkeyup="alert()">
+                    <div id="liveAlertPlaceholder1"></div>
+                    <input type=file name=file id="file" onchange="alert()">
+                    <div id="liveAlertPlaceholder2"></div>
+                    <textarea type="text" name="description" placeholder="Description" id="description" rows="4"
+                        cols="50"></textarea>
+                    <select name="type" id="type" onchange="alert()">
+                        <option disabled selected value="">Related Subject</option>
+                        {% for type in types %}
+                        <option value="{{ type }}" name="type">{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="liveAlertPlaceholder3"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type=submit value=Upload id="submit button" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="d-flex flex-wrap">
+    {% for session in sessions %}
+    <div class="card" id="sessions_card">
+        <img src="static/images/{{ session['image_name'] }}" class="card-img-top" id="session_img" alt="">
+
+        <div class="card-body">
+            <h5 class="card-title">{{ session['title'] }}</h5>
+            <h6>{{ session['type'] }}</h6>
+            <p class="card-text">{{ session['description'] }}</p>
+            <form action="/detailed_session">
+                <input type="hidden" name="session_id" value="{{ session['id'] }}">
+                <input type="hidden" name="user_id" value="{{ session['user_id'] }}">
+                <input type="hidden" name="previous_page" value="/discover">
+                <button class="btn btn-info">Details</button>
+            </form>
+            {% if current_user != session['user_id'] %}
+            <form action="/register">
+                <input type="hidden" name="session_id" value="{{ session['id'] }}">
+                <button class="btn btn-primary">Register Session</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+<script>
+    const alertPlaceholder1 = document.getElementById('liveAlertPlaceholder1');
+    const alertPlaceholder2 = document.getElementById('liveAlertPlaceholder2');
+    const alertPlaceholder3 = document.getElementById('liveAlertPlaceholder3');
+    const file = document.getElementById('file');
+    const title = document.getElementById('title');
+    const type = document.getElementById("type");
+
+    const button = document.getElementById("submit button");
+
+    function alert() {
+        if (title.value == '') {
+            alertPlaceholder1.setAttribute("class", "alert alert-danger");
+            alertPlaceholder1.setAttribute("role", "alert");
+            alertPlaceholder1.innerHTML = "You must enter a title";
+        }
+        else {
+            alertPlaceholder1.removeAttribute("class");
+            alertPlaceholder1.removeAttribute("role");
+            alertPlaceholder1.innerHTML = "";
+        }
+
+        if (file.value == '') {
+            alertPlaceholder2.setAttribute("class", "alert alert-danger");
+            alertPlaceholder2.setAttribute("role", "alert");
+            alertPlaceholder2.innerHTML = "You must upload an image";
+        }
+        else {
+            alertPlaceholder2.removeAttribute("class");
+            alertPlaceholder2.removeAttribute("role");
+            alertPlaceholder2.innerHTML = "";
+        }
+        if (type.value == '') {
+            alertPlaceholder3.setAttribute("class", "alert alert-danger");
+            alertPlaceholder3.setAttribute("role", "alert");
+            alertPlaceholder3.innerHTML = "You must choose a related subject";
+        }
+        else {
+            alertPlaceholder3.removeAttribute("class");
+            alertPlaceholder3.removeAttribute("role");
+            alertPlaceholder3.innerHTML = "";
+        }
+
+        if (file.value != '' && title.value != '' && type.value != '') {
+            button.disabled = false;
+        }
+        else {
+            button.disabled = true;
+        }
+
+
+    }
+</script>
+<div>
+
+</div>
+{% endblock %}

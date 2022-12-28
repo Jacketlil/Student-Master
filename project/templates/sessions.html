@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Sessions
+{% endblock %}
+
+{% block main %}
+{% if (posted_sessions|length == 0) and (registered_sessions|length == 0) and (in_progress_sessions|length == 0) and
+(awaiting_sessions|length == 0) %}
+<h1>You haven't registered or posted any sessions</h1>
+
+{% else %}
+{% if posted_sessions|length > 0 %}
+<h1>My Sessions</h1>
+<div class="d-flex flex-wrap">
+    {% for session in posted_sessions %}
+    <div class="card" id="sessions_card">
+        <img src="static/images/{{ session['image_name'] }}" class="card-img-top" alt="">
+
+        <div class="card-body">
+            <h5 class="card-title">{{ session['title'] }}</h5>
+            <h6>{{ session['type'] }}</h6>
+            <p class="card-text">{{ session['description'] }}</p>
+            <form action="/detailed_session">
+                <input type="hidden" name="session_id" value="{{ session['id'] }}">
+                <input type="hidden" name="user_id" value="{{ session['user_id'] }}">
+                <input type="hidden" name="previous_page" value="/sessions">
+                <button class="btn btn-info">Details</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% if registered_sessions|length > 0 %}
+<h1>Registered Sessions</h1>
+<div class="d-flex flex-wrap">
+    {% for session in registered_sessions %}
+    <div class="card" id="sessions_card">
+        <img src="static/images/{{ session['image_name'] }}" class="card-img-top" id="session_img" alt="">
+
+        <div class="card-body">
+            <h5 class="card-title">{{ session['title'] }}</h5>
+            <h6>{{ session['type'] }}</h6>
+            <p class="card-text">{{ session['description'] }}</p>
+            <form action="/detailed_session">
+                <input type="hidden" name="session_id" value="{{ session['id'] }}">
+                <input type="hidden" name="user_id" value="{{ session['user_id'] }}">
+                <input type="hidden" name="previous_page" value="/sessions">
+                <button class="btn btn-info">Details</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if awaiting_sessions|length > 0 %}
+<h1>Sessions Awaiting For Confirmation</h1>
+<div class="d-flex flex-wrap">
+    {% for session in awaiting_sessions %}
+    <div class="card" id="sessions_card">
+        <img src="static/images/{{ session['image_name'] }}" class="card-img-top" id="session_img" alt="">
+
+        <div class="card-body">
+            <h5 class="card-title">{{ session['title'] }}</h5>
+            <h6>{{ session['type'] }}</h6>
+            <h8>Requested User: {{ session['username'] }}</h8>
+            <p class="card-text">Description: {{ session['description'] }}</p>
+            <form action="/detailed_session">
+                <input type="hidden" name="session_id" value="{{ session['id'] }}">
+                <input type="hidden" name="user_id" value="{{ session['user_id'] }}">
+                <input type="hidden" name="previous_page" value="/sessions">
+                <button class="btn btn-info">Details</button>
+            </form>
+            <form action="/confirm" method="post">
+                <input type="hidden" name="session_id" value="{{ session['id'] }}">
+                <input type="hidden" name="previous_page" value="/sessions">
+                <button class="btn btn-primary" href="#">Confirm</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% if in_progress_sessions|length > 0 %}
+<h1>In Progress Sessions</h1>
+<div class="d-flex flex-wrap">
+    {% for session in in_progress_sessions %}
+    <div class="card" id="sessions_card">
+        <img src="static/images/{{ session['image_name'] }}" class="card-img-top" id="session_img" alt="">
+
+        <div class="card-body">
+            <h5 class="card-title">{{ session['title'] }}</h5>
+            <h6>{{ session['type'] }}</h6>
+            <p class="card-text">{{ session['description'] }}</p>
+            <form action="/detailed_session">
+                <input type="hidden" name="session_id" value="{{ session['id'] }}">
+                <input type="hidden" name="user_id" value="{{ session['user_id'] }}">
+                <input type="hidden" name="previous_page" value="/sessions">
+                <button class="btn btn-info">Details</button>
+            </form>
+            <form action="/finished" method="post">
+            <input type="hidden" name="session_id" value="{{ session['id'] }}">
+            <button class="btn btn-primary">Session Finished</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endif %}
+
+{% endblock %}

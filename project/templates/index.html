@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block main %}
+
+
+<h1>Hello! {{ username[0]['username'] }}</h1>
+
+{% if (posted_sessions == 0) and (registered_sessions == 0) and (in_progress_sessions == 0) and
+    (awaiting_sessions == 0) %}
+    <h1>You haven't registered or posted any sessions</h1>
+    <form action="/discover" method="get">
+    <h4>Click <a href="/discover">here</a> to Discover Page to post, or register sessions</h4>
+    
+    {% else %}
+    {% if posted_sessions > 0 %}
+    <h4>{{ posted_sessions }} session(s) currently posted, awaiting for other users to sign up.</h4>
+    {% endif %}
+    
+    
+    {% if awaiting_sessions > 0 %}
+    <h4>{{ awaiting_sessions }} session(s) waiting for your confirmation.</h4>
+    {% endif %}
+
+    {% if in_progress_sessions > 0 %}
+    <h4>{{ in_progress_sessions }} session(s) in progress, remember to end the session on <b href="/sessions">Sessions Page</b> when it is finished</h4>
+    {% endif %}
+    
+    {% if registered_sessions > 0 %}
+    <h4>You signed up for {{ registered_sessions }} session(s)</h4>
+    {% endif %}
+    {% endif %}
+{% endblock %}

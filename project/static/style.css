@@ -1,0 +1,25 @@
+#sessions_card {
+    width: 20rem;
+    margin: 20px;
+}
+
+#file {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#description {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#type {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#title {
+    margin-top: 10px;
+    margin-bottom:10px;
+}

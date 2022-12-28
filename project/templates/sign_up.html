@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Sign Up
+{% endblock %}
+
+{% block main %}
+<img src="/static/images/school.png" style="text-align:center; width:80px; padding-bottom: 50px;">
+<form onkeyup="alert()" action="/sign_up" method="post">
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username"
+            placeholder="Username" type="text" onkeyup="alert()">
+    </div>
+    <div id="liveAlertPlaceholder1"></div>
+    <div class="mb-3">
+    <input class="form-control mx-auto w-auto" type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        placeholder="Email Address" onkeyup="alert()">
+    </div>
+    <div id="liveAlertPlaceholder2"></div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password"
+            onkeyup="alert()">
+    </div>
+    <div id="liveAlertPlaceholder3"></div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirmation"
+            type="password" onkeyup="alert()">
+    </div>
+    <div id="liveAlertPlaceholder4"></div>
+    <button class="btn btn-primary" type="submit" id="submit button" disabled>Sign Up</button>
+</form>
+
+
+<script>
+    const alertPlaceholder1 = document.getElementById('liveAlertPlaceholder1');
+    const alertPlaceholder2 = document.getElementById('liveAlertPlaceholder2');
+    const alertPlaceholder3 = document.getElementById('liveAlertPlaceholder3');
+    const alertPlaceholder4 = document.getElementById('liveAlertPlaceholder4');
+
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+    const email = document.getElementById('email');
+    const confirmation = document.getElementById('confirmation');
+
+    const button = document.getElementById('submit button');
+
+    function alert() {
+        if (username.value == '') {
+            alertPlaceholder1.setAttribute("class", "alert alert-danger");
+            alertPlaceholder1.setAttribute("role", "alert");
+            alertPlaceholder1.innerHTML = "Username cannot be empty!";
+        }
+        else {
+            alertPlaceholder1.removeAttribute("class");
+            alertPlaceholder1.removeAttribute("role");
+            alertPlaceholder1.innerHTML = "";
+        }
+        if (email.value == '') {
+            alertPlaceholder2.setAttribute("class", "alert alert-danger");
+            alertPlaceholder2.setAttribute("role", "alert");
+            alertPlaceholder2.innerHTML = "You must enter an email address to receive notificaiton!";
+        }
+        else {
+            alertPlaceholder2.removeAttribute("class");
+            alertPlaceholder2.removeAttribute("role");
+            alertPlaceholder2.innerHTML = "";
+        }
+        if (password.value == '') {
+            alertPlaceholder3.setAttribute("class", "alert alert-danger");
+            alertPlaceholder3.setAttribute("role", "alert");
+            alertPlaceholder3.innerHTML = "Password cannot be empty";
+        }
+        else {
+            alertPlaceholder3.removeAttribute("class");
+            alertPlaceholder3.removeAttribute("role");
+            alertPlaceholder3.innerHTML = "";
+        }
+        if (confirmation.value == '') {
+            alertPlaceholder4.setAttribute("class", "alert alert-danger");
+            alertPlaceholder4.setAttribute("role", "alert");
+            alertPlaceholder4.innerHTML = "Please enter confirmation password!";
+        }
+        else {
+            alertPlaceholder4.removeAttribute("class");
+            alertPlaceholder4.removeAttribute("role");
+            alertPlaceholder4.innerHTML = "";
+        }
+
+        if (username.value != '' && password.value != '' && email.value != '' && confirmation.value != '') {
+            button.disabled = false;
+        }
+        else {
+            button.disabled = true;
+        }
+    }
+</script>
+{% endblock %}
